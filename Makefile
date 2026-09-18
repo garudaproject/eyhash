@@ -1,3 +1,12 @@
+VERSION = $(shell describe --tags --abbrev=0)
+LDFLAGS = -ldflags="-s -w -X main.version=$(VERSION)"
+
+build:
+	go build $(LDFLAGS) -o ./bin/eyhash ./cmd/eyhash
+
+install:
+	CGO_ENABLED=0 go install $(LDFLAGS) ./cmd/eyhash
+
 run: build
 	./bin/eyhash
 
@@ -10,11 +19,11 @@ run-folder: build
 run-unknown: build
 	./bin/eyhash test.txt -u
 
-build:
-	go build -ldflags="-s -w" -o bin/eyhash cmd/main.go
-
 test:
 	go test -v ./...
 
 test-race:
 	go test -v ./... --race
+
+clean:
+	rm -rf ./bin

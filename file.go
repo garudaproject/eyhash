@@ -17,12 +17,10 @@ func FileInfo(path string) (*Info, error) {
 		return nil, err
 	}
 	defer file.Close()
-
 	info, err := file.Stat()
 	if err != nil {
 		return nil, err
 	}
-
 	return &Info{
 		Name:    file.Name(),
 		Size:    info.Size(),
